@@ -14,7 +14,5 @@ def extract_news(news_data) -> List[News]:
 def extract_market_prices(market_data):
     extracted_prices = []
     for price in market_data:
-        extracted_prices.append(
-            {"symbol": price["symbol"], "price": price["price"]}
-        )
+        extracted_prices.append({"symbol": price["symbol"], "price": price["price"]})
     return extracted_prices

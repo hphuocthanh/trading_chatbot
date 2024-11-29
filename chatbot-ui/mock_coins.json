@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Bitcoin",
+    "slug": "bitcoin"
+  },
+  {
+    "name": "Ethereum",
+    "slug": "ethereum"
+  },
+  {
+    "name": "Tether",
+    "slug": "tether"
+  },
+  {
+    "name": "Solana",
+    "slug": "solana"
+  },
+  {
+    "name": "BNB",
+    "slug": "bnb"
+  },
+  {
+    "name": "XRP",
+    "slug": "xrp"
+  },
+  {
+    "name": "Dogecoin",
+    "slug": "dogecoin"
+  },
+  {
+    "name": "USD Coin",
+    "slug": "usd-coin"
+  },
+  {
+    "name": "Cardano",
+    "slug": "cardano"
+  },
+  {
+    "name": "Polkadot",
+    "slug": "polkadot"
+  }
+]
