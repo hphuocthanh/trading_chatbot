@@ -171,46 +171,49 @@ export default function Home() {
       <div className="flex flex-col justify-between gap-4">
         {messages.length > 0 ? (
           <div className="flex flex-col gap-2 h-full w-dvw items-center overflow-y-scroll">
-            {messages.map((message, index) => (
-              <motion.div
-                key={message.id}
-                className={`flex flex-row gap-2 px-4 w-full md:w-[500px] md:px-0 ${
-                  index === 0 ? "pt-20" : ""
-                }`}
-                initial={{ y: 5, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-              >
-                <div className="size-[24px] flex flex-col justify-center items-center flex-shrink-0 text-zinc-400">
-                  {message.role === "assistant" ? <BotIcon /> : <UserIcon />}
-                </div>
+            {messages.map((message, index) => {
+              console.log('messages', messages)
+              return (
+                <motion.div
+                  key={message.id}
+                  className={`flex flex-row gap-2 px-4 w-full md:min-w-[500px] md:max-w-[700px] md:px-0 rounded-md p-2 ${
+                    index === 0 ? "mt-20" : ""
+                  } ${message.role === "user" ? "bg-gray-700" : ""}`}
+                  initial={{ y: 5, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                >
+                  <div className="size-[24px] flex flex-col justify-center items-center flex-shrink-0 text-zinc-400">
+                    {message.role === "assistant" ? <BotIcon /> : <UserIcon />}
+                  </div>
 
-                <div className="flex flex-col gap-1">
-                  <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
-                    <Markdown>{message.content}</Markdown>
+                  <div className="flex flex-col gap-1">
+                    <div className="text-zinc-800 dark:text-zinc-300 flex flex-col gap-4">
+                      <Markdown>{message.content}</Markdown>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                      {message.experimental_attachments?.map((attachment) =>
+                        attachment.contentType?.startsWith("image") ? (
+                          <img
+                            className="rounded-md w-40 mb-3"
+                            key={attachment.name}
+                            src={attachment.url}
+                            alt={attachment.name}
+                          />
+                        ) : attachment.contentType?.startsWith("text") ? (
+                          <div className="text-xs w-40 h-24 overflow-hidden text-zinc-400 border p-2 rounded-md dark:bg-zinc-800 dark:border-zinc-700 mb-3">
+                            {getTextFromDataUrl(attachment.url)}
+                          </div>
+                        ) : null
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-row gap-2">
-                    {message.experimental_attachments?.map((attachment) =>
-                      attachment.contentType?.startsWith("image") ? (
-                        <img
-                          className="rounded-md w-40 mb-3"
-                          key={attachment.name}
-                          src={attachment.url}
-                          alt={attachment.name}
-                        />
-                      ) : attachment.contentType?.startsWith("text") ? (
-                        <div className="text-xs w-40 h-24 overflow-hidden text-zinc-400 border p-2 rounded-md dark:bg-zinc-800 dark:border-zinc-700 mb-3">
-                          {getTextFromDataUrl(attachment.url)}
-                        </div>
-                      ) : null
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              )
+            })}
 
             {isLoading &&
               messages[messages.length - 1].role !== "assistant" && (
-                <div className="flex flex-row gap-2 px-4 w-full md:w-[500px] md:px-0">
+                <div className="flex flex-row gap-2 px-4 w-full md:min-w-[500px] md:max-w-[700px] md:px-0">
                   <div className="size-[24px] flex flex-col justify-center items-center flex-shrink-0 text-zinc-400">
                     <BotIcon />
                   </div>
@@ -224,31 +227,7 @@ export default function Home() {
           </div>
         ) : (
           <motion.div className="h-[350px] px-4 w-full md:w-[500px] md:px-0 pt-20">
-            <div className="border rounded-lg p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-              <p className="flex flex-row justify-center gap-4 items-center text-zinc-900 dark:text-zinc-50">
-                <VercelIcon />
-                <span>+</span>
-                <AttachmentIcon />
-              </p>
-              <p>
-                The useChat hook supports sending attachments along with
-                messages as well as rendering previews on the client. This can
-                be useful for building applications that involve sending images,
-                files, and other media content to the AI provider.
-              </p>
-              <p>
-                {" "}
-                Learn more about the{" "}
-                <Link
-                  className="text-blue-500 dark:text-blue-400"
-                  href="https://sdk.vercel.ai/docs/ai-sdk-ui/chatbot#attachments-experimental"
-                  target="_blank"
-                >
-                  useChat{" "}
-                </Link>
-                hook from Vercel AI SDK.
-              </p>
-            </div>
+
           </motion.div>
         )}
 
@@ -263,7 +242,7 @@ export default function Home() {
         >
           <AnimatePresence>
             {files && files.length > 0 && (
-              <div className="flex flex-row gap-2 absolute bottom-12 px-4 w-full md:w-[500px] md:px-0">
+              <div className="flex flex-row gap-2 absolute bottom-12 px-4 w-full md:min-w-[500px] md:max-w-[700px] md:px-0">
                 {Array.from(files).map((file) =>
                   file.type.startsWith("image") ? (
                     <div key={file.name}>
@@ -312,7 +291,7 @@ export default function Home() {
             onChange={handleFileChange}
           />
 
-          <div className="flex items-center w-full md:max-w-[500px] max-w-[calc(100dvw-32px)] bg-zinc-100 dark:bg-zinc-700 rounded-full px-4 py-2">
+          <div className="flex items-center w-full md:max-w-[700px] max-w-[calc(100dvw-32px)] bg-zinc-100 dark:bg-zinc-700 rounded-full px-4 py-2">
             {/* Upload Button */}
             <button
               type="button"
